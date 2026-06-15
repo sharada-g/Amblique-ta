@@ -49,11 +49,18 @@ export function PDPImageZoom({
     imageAltFallback,
 }: PDPImageZoomProps): ReactElement {
     const { t: tProduct } = useTranslation('product');
-    const [hoverTransform, setHoverTransform] = useState<{ transformOrigin: string; scale: number } | null>(null);
+    const [isHoverZoomActive, setIsHoverZoomActive] = useState(false);
     const mainImageFrameRef = useRef<HTMLDivElement>(null);
+    const zoomLayerRef = useRef<HTMLDivElement>(null);
     const { zoomState, resetZoom } = usePinchZoom(mainImageFrameRef);
 
     const selectedImage = images[selectedIndex] ?? images[0];
+
+    const setZoomOrigin = useCallback((origin: string) => {
+        if (zoomLayerRef.current) {
+            zoomLayerRef.current.style.transformOrigin = origin;
+        }
+    }, []);
 
     const handlePointerEnterAndMove = useCallback(
         (event: PointerEvent<HTMLDivElement>) => {
@@ -70,37 +77,43 @@ export function PDPImageZoom({
             const { left, top, width, height } = frame.getBoundingClientRect();
             const x = Math.max(0, Math.min(100, ((event.clientX - left) / width) * 100));
             const y = Math.max(0, Math.min(100, ((event.clientY - top) / height) * 100));
-            setHoverTransform({ transformOrigin: `${x}% ${y}%`, scale: HOVER_ZOOM_SCALE });
+            setZoomOrigin(`${x}% ${y}%`);
+            if (!isHoverZoomActive) {
+                setIsHoverZoomActive(true);
+            }
         },
-        [zoomState.scale]
+        [isHoverZoomActive, setZoomOrigin, zoomState.scale]
     );
 
-    const handlePointerLeave = useCallback((event: PointerEvent<HTMLDivElement>) => {
-        if (event.pointerType !== 'mouse') {
-            return;
-        }
-        setHoverTransform(null);
-    }, []);
+    const handlePointerLeave = useCallback(
+        (event: PointerEvent<HTMLDivElement>) => {
+            if (event.pointerType !== 'mouse') {
+                return;
+            }
+            setIsHoverZoomActive(false);
+            setZoomOrigin('center center');
+        },
+        [setZoomOrigin]
+    );
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent<HTMLDivElement>) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                setHoverTransform((prev) =>
-                    prev ? null : { transformOrigin: 'center center', scale: HOVER_ZOOM_SCALE }
-                );
+                setZoomOrigin('center center');
+                setIsHoverZoomActive((prev) => !prev);
             } else if (event.key === 'Escape') {
-                setHoverTransform(null);
+                setIsHoverZoomActive(false);
+                setZoomOrigin('center center');
                 resetZoom();
             }
         },
-        [resetZoom]
+        [resetZoom, setZoomOrigin]
     );
 
-    const activeScale = hoverTransform ? hoverTransform.scale : zoomState.scale;
-    const activeOrigin = hoverTransform ? hoverTransform.transformOrigin : 'center center';
-    const activeTranslateX = hoverTransform ? 0 : zoomState.translateX;
-    const activeTranslateY = hoverTransform ? 0 : zoomState.translateY;
+    const activeScale = isHoverZoomActive ? HOVER_ZOOM_SCALE : zoomState.scale;
+    const activeTranslateX = isHoverZoomActive ? 0 : zoomState.translateX;
+    const activeTranslateY = isHoverZoomActive ? 0 : zoomState.translateY;
 
     return (
         <div
@@ -114,10 +127,11 @@ export function PDPImageZoom({
             onPointerLeave={handlePointerLeave}
             onKeyDown={handleKeyDown}>
             <div
+                ref={zoomLayerRef}
                 className="h-full w-full transition-transform duration-200 ease-out will-change-transform"
                 style={{
                     transform: `scale(${activeScale}) translate(${activeTranslateX}px, ${activeTranslateY}px)`,
-                    transformOrigin: activeOrigin,
+                    transformOrigin: 'center center',
                 }}>
                 <DynamicImage
                     src={selectedImage.src}
