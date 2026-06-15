@@ -28,7 +28,7 @@ vi.mock('react-i18next', () => ({
     useTranslation: () => ({
         t: (key: string, opts?: Record<string, unknown>) => {
             if (key === 'imagePosition' && opts) {
-                return `Image ${opts.current} of ${opts.total}`;
+                return `Image ${String(opts.current)} of ${String(opts.total)}`;
             }
             return key;
         },
@@ -169,7 +169,7 @@ describe('ProductImageContainer Image Cycler', () => {
         ]);
     });
 
-    test('renders only the primary image (eager) before client mount — SSR contract', async () => {
+    test('renders only the primary image (eager) before client mount — SSR contract', () => {
         (useIsMounted as Mock).mockReturnValue(false);
 
         const { getAllByTestId } = render(<ProductImageContainer product={mockProduct} />);
@@ -180,10 +180,27 @@ describe('ProductImageContainer Image Cycler', () => {
         expect(images[0]).toHaveAttribute('loading', 'eager');
     });
 
-    test('after mount renders all images with primary eager and additional lazy', () => {
+    test('does not mount additional images until interaction — no prefetch on mount', () => {
         const { getAllByTestId } = render(<ProductImageContainer product={mockProduct} />);
         const images = getAllByTestId('product-image');
 
+        // Only the primary image is in the DOM on mount. The additional images are deferred so an
+        // above-the-fold tile (in-viewport, where `loading="lazy"` would not defer) doesn't fetch the
+        // whole set on mount.
+        expect(images).toHaveLength(1);
+        expect(images[0]).toHaveAttribute('src', 'https://example.com/img1.jpg');
+        expect(images[0]).toHaveAttribute('loading', 'eager');
+    });
+
+    test('mounts all images after interaction with primary eager and additional lazy', () => {
+        const { getAllByTestId, container } = render(<ProductImageContainer product={mockProduct} />);
+
+        // A hover over a cycle zone is the first interaction; it activates the deferred image set.
+        act(() => {
+            fireEvent.mouseEnter(container.querySelector('.cursor-e-resize') as HTMLElement);
+        });
+
+        const images = getAllByTestId('product-image');
         expect(images).toHaveLength(3);
         expect(images[0]).toHaveAttribute('loading', 'eager');
         expect(images[1]).toHaveAttribute('loading', 'lazy');
@@ -204,9 +221,10 @@ describe('ProductImageContainer Image Cycler', () => {
         const leftZone = container.querySelector('.cursor-w-resize') as HTMLElement;
         const dotsWrapper = container.querySelector('[aria-hidden="true"].pointer-events-none');
         const activeDotIndex = () =>
-            Array.from(dotsWrapper?.children ?? []).findIndex((el) =>
-                (el as HTMLElement).className.includes('bg-foreground') &&
-                !(el as HTMLElement).className.includes('bg-foreground/40')
+            Array.from(dotsWrapper?.children ?? []).findIndex(
+                (el) =>
+                    (el as HTMLElement).className.includes('bg-foreground') &&
+                    !(el as HTMLElement).className.includes('bg-foreground/40')
             );
 
         expect(activeDotIndex()).toBe(0);
@@ -245,13 +263,16 @@ describe('ProductImageContainer Image Cycler', () => {
     });
 
     test('resets to the primary image when the image set changes (e.g. swatch change)', async () => {
-        const { container, rerender } = render(<ProductImageContainer product={mockProduct} selectedColorValue="navy" />);
+        const { container, rerender } = render(
+            <ProductImageContainer product={mockProduct} selectedColorValue="navy" />
+        );
         const rightZone = container.querySelector('.cursor-e-resize') as HTMLElement;
         const dotsWrapper = () => container.querySelector('[aria-hidden="true"].pointer-events-none');
         const activeDotIndex = () =>
-            Array.from(dotsWrapper()?.children ?? []).findIndex((el) =>
-                (el as HTMLElement).className.includes('bg-foreground') &&
-                !(el as HTMLElement).className.includes('bg-foreground/40')
+            Array.from(dotsWrapper()?.children ?? []).findIndex(
+                (el) =>
+                    (el as HTMLElement).className.includes('bg-foreground') &&
+                    !(el as HTMLElement).className.includes('bg-foreground/40')
             );
 
         act(() => {

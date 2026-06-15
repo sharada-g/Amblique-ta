@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type SetStateAction } from 'react';
 import { Link } from '@/components/link';
 import type { ShopperSearch } from '@/scapi';
 import { createProductUrl, getImagesForColor } from '@/lib/product/product-utils';
@@ -47,6 +47,7 @@ const ProductImageContainer = ({
     const isMounted = useIsMounted();
     const containerRef = useRef<HTMLDivElement>(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+    const [isActivated, setIsActivated] = useState(false);
 
     // Get all images for the selected color variant
     const allImages = useMemo(
@@ -54,9 +55,11 @@ const ProductImageContainer = ({
         [product, selectedColorValue]
     );
 
-    // Reset to the primary image whenever the image set changes (e.g. different swatch/product).
+    // Reset to the primary image — and re-defer the additional images — whenever the image set changes
+    // (e.g. different swatch/product) so a freshly selected colour doesn't eagerly fetch its whole set.
     useEffect(() => {
         setSelectedImageIndex(0);
+        setIsActivated(false);
     }, [allImages]);
 
     const hasMultipleImages = allImages.length > 1;
@@ -74,12 +77,23 @@ const ProductImageContainer = ({
         }
     }, [imageContext, primaryImageUrl]);
 
+    const activate = useCallback(() => {
+        setIsActivated(true);
+    }, []);
+
     const goToPrev = useCallback(() => {
+        setIsActivated(true);
         setSelectedImageIndex((prev) => (prev > 0 ? prev - 1 : allImages.length - 1));
     }, [allImages.length]);
     const goToNext = useCallback(() => {
+        setIsActivated(true);
         setSelectedImageIndex((prev) => (prev < allImages.length - 1 ? prev + 1 : 0));
     }, [allImages.length]);
+
+    const handleArrowIndexChange = useCallback((value: SetStateAction<number>) => {
+        setIsActivated(true);
+        setSelectedImageIndex(value);
+    }, []);
 
     useSwipe(
         containerRef,
@@ -114,6 +128,8 @@ const ProductImageContainer = ({
             className={`${showNavigationArrows ? 'group/image ' : ''}${isCycling ? 'z-[2] touch-pan-y ' : ''}relative overflow-hidden bg-secondary/20 flex flex-col ${
                 imgAspectRatio === 1 ? 'aspect-square' : ''
             } ${className || ''}`}
+            onPointerEnter={isCycling ? activate : undefined}
+            onPointerDown={isCycling ? activate : undefined}
             style={heightStyle}>
             {/* Product Image */}
             <Link
@@ -134,8 +150,10 @@ const ProductImageContainer = ({
                     widths={imageContext?.widths}
                 />
 
-                {/* Additional images: client-only progressive enhancement, lazily loaded. */}
+                {/* Additional images: client-only progressive enhancement. Mounted only after the first
+                    interaction so above-the-fold tiles don't fetch the whole set on mount. Lazily loaded. */}
                 {isCycling &&
+                    isActivated &&
                     allImages.slice(1).map((image, index) => {
                         const actualIndex = index + 1;
                         const imageUrl = image?.disBaseLink || image?.link;
@@ -197,7 +215,7 @@ const ProductImageContainer = ({
             {showNavigationArrows && allImages.length > 1 && (
                 <ImageNavArrows
                     imageCount={allImages.length}
-                    onIndexChange={setSelectedImageIndex}
+                    onIndexChange={handleArrowIndexChange}
                     className="opacity-0 group-hover/image:opacity-100 transition-opacity"
                 />
             )}

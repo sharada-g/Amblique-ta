@@ -26,6 +26,13 @@ import ProductView from './index';
 import { AllProvidersWrapper } from '@/test-utils/context-provider';
 import { createConfigWrapper, mockAltSiteObject } from '@/test-utils/config';
 
+// Mock the mobile sticky Add to Cart bar. It mirrors the product name, which would otherwise produce a
+// duplicate "Test Product" text match in this suite. The sticky bar has its own dedicated coverage in
+// `sticky-add-to-cart/index.test.tsx`; here we only care about the main PDP layout.
+vi.mock('@/components/sticky-add-to-cart', () => ({
+    default: () => null,
+}));
+
 // Create a wrapper with default config
 const defaultConfigWrapper = createConfigWrapper({
     app: {

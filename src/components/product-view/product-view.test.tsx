@@ -45,6 +45,14 @@ vi.mock('@/components/image-gallery', () => ({
     },
 }));
 
+// Mock the mobile sticky Add to Cart bar. It mirrors the product name and the native ATC button, which
+// would otherwise produce duplicate "<product-name>" text and "Add to Cart" button matches in this
+// suite. The sticky bar has its own dedicated coverage in `sticky-add-to-cart/index.test.tsx`; here we
+// only care about the main PDP layout.
+vi.mock('@/components/sticky-add-to-cart', () => ({
+    default: () => null,
+}));
+
 // Mock useToast
 const mockAddToast = vi.fn();
 vi.mock('@/components/toast', () => ({
