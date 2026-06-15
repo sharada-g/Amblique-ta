@@ -1446,6 +1446,7 @@
         "readLess": "Les mindre",
         "reviewImageAlt": "Gjennomgå bilde",
         "viewProductAriaLabel": "Visning {{productName}}",
+        "imagePosition": "Bilde {{current}} av {{total}}",
         "swatches": {
             "availableColors": "Available colors",
             "viewProductInColor": "View {{productName}} in {{colorName}}",

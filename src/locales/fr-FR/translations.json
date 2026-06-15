@@ -1467,6 +1467,7 @@
         "readLess": "En voir moins",
         "reviewImageAlt": "Image de l’avis",
         "viewProductAriaLabel": "Afficher {{productName}}",
+        "imagePosition": "Image {{current}} sur {{total}}",
         "swatches": {
             "availableColors": "Available colors",
             "viewProductInColor": "View {{productName}} in {{colorName}}",

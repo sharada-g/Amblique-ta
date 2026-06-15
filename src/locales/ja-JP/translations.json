@@ -1510,6 +1510,7 @@
         "readLess": "表示を減らす",
         "reviewImageAlt": "レビュー画像",
         "viewProductAriaLabel": "{{productName}}を表示",
+        "imagePosition": "画像 {{total}} 枚中 {{current}} 枚目",
         "swatches": {
             "availableColors": "Available colors",
             "viewProductInColor": "View {{productName}} in {{colorName}}",

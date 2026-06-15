@@ -1513,6 +1513,7 @@
         "readLess": "阅读更少",
         "reviewImageAlt": "评论图片",
         "viewProductAriaLabel": "查看 {{productName}}",
+        "imagePosition": "图片 {{current}}/{{total}}",
         "swatches": {
             "availableColors": "Available colors",
             "viewProductInColor": "View {{productName}} in {{colorName}}",

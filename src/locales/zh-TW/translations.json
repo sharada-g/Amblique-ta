@@ -1511,6 +1511,7 @@
         "readLess": "閱讀更少",
         "reviewImageAlt": "查看圖像",
         "viewProductAriaLabel": "檢視 {{productName}}",
+        "imagePosition": "圖片 {{current}}/{{total}}",
         "swatches": {
             "availableColors": "Available colors",
             "viewProductInColor": "View {{productName}} in {{colorName}}",

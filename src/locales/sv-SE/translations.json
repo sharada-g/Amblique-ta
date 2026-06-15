@@ -1448,6 +1448,7 @@
         "readLess": "Mindre",
         "reviewImageAlt": "Granska bilden",
         "viewProductAriaLabel": "Visa {{productName}}",
+        "imagePosition": "Bild {{current}} av {{total}}",
         "swatches": {
             "availableColors": "Available colors",
             "viewProductInColor": "View {{productName}} in {{colorName}}",

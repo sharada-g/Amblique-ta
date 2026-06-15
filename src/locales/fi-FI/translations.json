@@ -1455,6 +1455,7 @@
         "readLess": "Lue vähemmän",
         "reviewImageAlt": "Arvostelun kuva",
         "viewProductAriaLabel": "Näytä {{productName}}",
+        "imagePosition": "Kuva {{current}} / {{total}}",
         "swatches": {
             "availableColors": "Available colors",
             "viewProductInColor": "View {{productName}} in {{colorName}}",
