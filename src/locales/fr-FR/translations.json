@@ -1416,6 +1416,7 @@
         "selectAllOptions": "Sélectionnez toutes vos options ci-dessus",
         "description": "Description",
         "imageAlt": "Image de produit",
+        "zoomImageAriaLabel": "Zoomer l’image du produit. Appuyez sur Entrée pour activer/désactiver le zoom, Échap pour quitter.",
         "addingToCart": "Ajout au panier...",
         "addToCart": "Ajouter au panier",
         "moreOptions": "Plus d’options",

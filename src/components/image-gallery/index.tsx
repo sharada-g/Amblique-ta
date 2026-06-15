@@ -35,6 +35,7 @@ import { cn } from '@/lib/utils';
 import type { DynamicImageDimensions } from '@/lib/images/dynamic-image';
 import type { AppConfig } from '@/types/config';
 import { UITarget } from '@/targets/ui-target';
+import { PDPImageZoom } from '@/components/image-gallery/pdp-image-zoom';
 
 export interface GalleryImage {
     src: string;
@@ -221,9 +222,6 @@ export default function ImageGallery({
     const { t: tCommon } = useTranslation('common');
     const { t: tProduct } = useTranslation('product');
 
-    // The first image is the fallback image. It's needed for when `images` are just updated, and the `selectedImageIndex` goes out of bound and is soon to be reset.
-    const selectedImage = images[selectedImageIndex] ?? images[0];
-
     if (!images || images.length === 0) {
         return (
             <div className="aspect-square bg-muted rounded-none flex items-center justify-center">
@@ -241,14 +239,13 @@ export default function ImageGallery({
         <UITarget targetId="sfcc.pdp.products.gallery">
             <div className="space-y-4">
                 {/* Main Image */}
-                <div className="relative aspect-square overflow-hidden rounded-none bg-muted">
-                    <DynamicImage
-                        src={selectedImage.src}
-                        alt={selectedImage.alt || imageAltFallback}
+                <div className="relative aspect-square  rounded-none bg-muted">
+                    <PDPImageZoom
+                        images={images}
+                        selectedIndex={selectedImageIndex}
+                        imageAltFallback={imageAltFallback}
                         widths={mainWidths}
-                        className="w-full h-full object-cover object-center [&_img]:object-contain! [&_img]:h-full! [&_img]:max-w-full! [&_img]:mx-auto!"
-                        loading={eager ? 'eager' : 'lazy'}
-                        priority={eager ? 'high' : undefined}
+                        eager={eager}
                     />
                     {showNavigationArrows && images.length > 1 && (
                         <ImageNavArrows
@@ -258,7 +255,6 @@ export default function ImageGallery({
                         />
                     )}
                 </div>
-
                 {/* Thumbnail Navigation */}
                 {images.length > 1 && !horizontalThumbnails && (
                     <div className="grid grid-cols-4 gap-2 sm:gap-3">
@@ -290,7 +286,6 @@ export default function ImageGallery({
                         ))}
                     </div>
                 )}
-
                 {/* Horizontal Scrollable Thumbnail Strip */}
                 {images.length > 1 && horizontalThumbnails && (
                     <div className="relative flex items-center gap-2">

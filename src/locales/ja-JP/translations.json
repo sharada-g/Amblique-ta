@@ -1459,6 +1459,7 @@
         "selectAllOptions": "上記のオプションをすべて選択してください",
         "description": "説明",
         "imageAlt": "商品画像",
+        "zoomImageAriaLabel": "商品画像を拡大します。Enter キーでズームを切り替え、Escape キーで終了します。",
         "addingToCart": "買い物カゴに追加しています...",
         "addToCart": "買い物カゴに追加",
         "moreOptions": "その他のオプション",

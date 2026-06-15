@@ -1553,6 +1553,7 @@
         "selectAllOptions": "Seleziona tutte le opzioni sopra indicate",
         "description": "Descrizione",
         "imageAlt": "Immagine di prodotto",
+        "zoomImageAriaLabel": "Ingrandisci l'immagine del prodotto. Premi Invio per attivare/disattivare lo zoom, Esc per uscire.",
         "addingToCart": "Aggiunta al carrello in corso...",
         "addToCart": "Aggiungi al carrello",
         "moreOptions": "Altre opzioni",

@@ -1395,6 +1395,7 @@
         "selectAllOptions": "Alle Optionen oben auswählen",
         "description": "Beschreibung",
         "imageAlt": "Produktbild",
+        "zoomImageAriaLabel": "Produktbild vergrößern. Drücken Sie Enter, um den Zoom ein- oder auszuschalten, und Escape zum Beenden.",
         "addingToCart": "In den Warenkorb legen …",
         "addToCart": "In den Warenkorb",
         "moreOptions": "Weitere Optionen",

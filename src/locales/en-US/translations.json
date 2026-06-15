@@ -1634,6 +1634,7 @@
         "selectAllOptions": "Select all your options above",
         "description": "Description",
         "imageAlt": "Product Image",
+        "zoomImageAriaLabel": "Zoom product image. Press Enter to toggle zoom, Escape to exit.",
         "addingToCart": "Adding to Cart...",
         "addToCart": "Add to Cart",
         "moreOptions": "More Options",

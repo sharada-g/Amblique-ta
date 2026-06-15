@@ -1396,6 +1396,7 @@
         "selectAllOptions": "Selecteer alle bovenstaande opties",
         "description": "Beschrijving",
         "imageAlt": "Productafbeelding",
+        "zoomImageAriaLabel": "Zoom productafbeelding. Druk op Enter om zoom in of uit te schakelen, Escape om af te sluiten.",
         "addingToCart": "Toevoegen aan winkelwagen...",
         "addToCart": "Toevoegen aan winkelwagen",
         "moreOptions": "Meer opties",

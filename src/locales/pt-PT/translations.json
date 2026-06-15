@@ -1417,6 +1417,7 @@
         "selectAllOptions": "Selecione todas as suas opções acima",
         "description": "Descrição",
         "imageAlt": "Imagem do produto",
+        "zoomImageAriaLabel": "Ampliar imagem do produto. Prima Enter para alternar o zoom e Escape para sair.",
         "addingToCart": "Adicionando ao carrinho...",
         "addToCart": "Adicionar ao carrinho",
         "moreOptions": "Mais opções",

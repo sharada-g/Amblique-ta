@@ -42,6 +42,7 @@ void i18next.init({
             },
             product: {
                 imageAlt: 'Product Image',
+                zoomImageAriaLabel: 'Zoom product image',
             },
         },
     },
@@ -227,6 +228,58 @@ describe('ImageGallery - off-screen image preloading', () => {
             .map(([href]) => String(href))
             .join(' | ');
         expect(promotedHrefs).toContain('image6');
+    });
+});
+
+describe('ImageGallery - zoom interactions', () => {
+    it('exposes the zoom control as a focusable labelled region with focus-visible ring classes', () => {
+        render(<ImageGallery images={mockImages} productName="Test Product" />, { wrapper });
+
+        const zoomRegion = screen.getByRole('region', { name: 'Zoom product image' });
+        expect(zoomRegion).toHaveAttribute('tabindex', '0');
+        expect(zoomRegion).toHaveClass('touch-none');
+        expect(zoomRegion).toHaveClass('focus-visible:outline-none');
+        expect(zoomRegion).toHaveClass('focus-visible:ring-2');
+        expect(zoomRegion).toHaveClass('focus-visible:ring-ring');
+    });
+
+    it('toggles zoom with keyboard Enter/Space and exits with Escape', () => {
+        render(<ImageGallery images={mockImages} productName="Test Product" />, { wrapper });
+
+        const zoomRegion = screen.getByRole('region', { name: 'Zoom product image' });
+        const zoomLayer = zoomRegion.firstElementChild as HTMLDivElement;
+
+        expect(zoomLayer).toHaveStyle({ transform: 'scale(1) translate(0px, 0px)' });
+
+        fireEvent.keyDown(zoomRegion, { key: 'Enter' });
+        expect(zoomLayer).toHaveStyle({ transform: 'scale(1.5) translate(0px, 0px)' });
+
+        fireEvent.keyDown(zoomRegion, { key: 'Enter' });
+        expect(zoomLayer).toHaveStyle({ transform: 'scale(1) translate(0px, 0px)' });
+
+        fireEvent.keyDown(zoomRegion, { key: ' ' });
+        expect(zoomLayer).toHaveStyle({ transform: 'scale(1.5) translate(0px, 0px)' });
+
+        fireEvent.keyDown(zoomRegion, { key: 'Escape' });
+        expect(zoomLayer).toHaveStyle({ transform: 'scale(1) translate(0px, 0px)' });
+    });
+
+    it('activates hover zoom for mouse pointers only', () => {
+        render(<ImageGallery images={mockImages} productName="Test Product" />, { wrapper });
+
+        const zoomRegion = screen.getByRole('region', { name: 'Zoom product image' });
+        const zoomLayer = zoomRegion.firstElementChild as HTMLDivElement;
+
+        expect(zoomLayer).toHaveStyle({ transform: 'scale(1) translate(0px, 0px)' });
+
+        fireEvent.pointerEnter(zoomRegion, { pointerType: 'mouse', clientX: 20, clientY: 20 });
+        expect(zoomLayer).toHaveStyle({ transform: 'scale(1.5) translate(0px, 0px)' });
+
+        fireEvent.pointerLeave(zoomRegion, { pointerType: 'mouse' });
+        expect(zoomLayer).toHaveStyle({ transform: 'scale(1) translate(0px, 0px)' });
+
+        fireEvent.pointerEnter(zoomRegion, { pointerType: 'touch', clientX: 20, clientY: 20 });
+        expect(zoomLayer).toHaveStyle({ transform: 'scale(1) translate(0px, 0px)' });
     });
 });
 

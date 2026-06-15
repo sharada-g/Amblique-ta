@@ -1404,6 +1404,7 @@
         "selectAllOptions": "Valitse kaikki vaihtoehdot yllä",
         "description": "Kuvaus",
         "imageAlt": "Tuotteen kuva",
+        "zoomImageAriaLabel": "Zoomaa tuotekuvaa. Ota zoomaus käyttöön tai pois käytöstä Enterillä, poistu Esc-näppäimellä.",
         "addingToCart": "Lisätään ostoskoriin...",
         "addToCart": "Lisää ostoskoriin",
         "moreOptions": "Lisää vaihtoehtoja",

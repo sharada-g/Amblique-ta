@@ -1455,6 +1455,7 @@
         "selectAllOptions": "위에서 옵션을 모두 선택하십시오.",
         "description": "설명",
         "imageAlt": "제품 이미지",
+        "zoomImageAriaLabel": "상품 이미지를 확대합니다. Enter 키로 확대를 전환하고, Esc 키로 종료하세요.",
         "addingToCart": "카트에 추가 중...",
         "addToCart": "카트에 추가",
         "moreOptions": "추가 옵션",

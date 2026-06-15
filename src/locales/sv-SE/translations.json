@@ -1397,6 +1397,7 @@
         "selectAllOptions": "Välj alla dina alternativ ovan",
         "description": "Beskrivning",
         "imageAlt": "Produktbild",
+        "zoomImageAriaLabel": "Zooma produktbild. Tryck på Enter för att växla zoom, Escape för att avsluta.",
         "addingToCart": "Lägger till i kundvagnen ...",
         "addToCart": "Lägg till i kundvagnen",
         "moreOptions": "Fler alternativ",

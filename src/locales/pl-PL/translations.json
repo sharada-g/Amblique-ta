@@ -1433,6 +1433,7 @@
         "selectAllOptions": "Wybierz wszystkie opcje powyżej",
         "description": "Opis",
         "imageAlt": "Obraz produktu",
+        "zoomImageAriaLabel": "Powiększ zdjęcie produktu. Naciśnij Enter, aby przełączyć powiększenie, Esc, aby zakończyć.",
         "addingToCart": "Dodawanie do koszyka...",
         "addToCart": "Dodaj do koszyka",
         "moreOptions": "Więcej opcji",

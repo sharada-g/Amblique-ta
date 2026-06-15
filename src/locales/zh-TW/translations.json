@@ -1460,6 +1460,7 @@
         "selectAllOptions": "請選取上方所有選項",
         "description": "描述",
         "imageAlt": "產品圖片",
+        "zoomImageAriaLabel": "放大商品圖片。按 Enter 切換縮放，按 Escape 結束。",
         "addingToCart": "新增至購物車...",
         "addToCart": "新增至購物車",
         "moreOptions": "更多選項",

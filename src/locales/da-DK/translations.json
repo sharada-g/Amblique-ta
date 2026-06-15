@@ -1395,6 +1395,7 @@
         "selectAllOptions": "Vælg alle dine muligheder ovenfor",
         "description": "Beskrivelse",
         "imageAlt": "Produktbillede",
+        "zoomImageAriaLabel": "Zoom produktbillede. Tryk Enter for at slå zoom til/fra, og Escape for at afslutte.",
         "addingToCart": "Lægger i kurv ...",
         "addToCart": "Læg i kurv",
         "moreOptions": "Flere muligheder",
