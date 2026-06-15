@@ -74,6 +74,7 @@ export default function ProductCartActions({
         handleAddToCart,
         handleUpdateCart,
         handleAddToWishlist,
+        nativeAddToCartRef,
     } = useProductView();
 
     const isEditMode = mode === 'edit';
@@ -172,6 +173,7 @@ export default function ProductCartActions({
                 {/* Standard layout: single Add to Cart / Update button */}
                 {!isCompactAddMode && !isProductASet && !isProductABundle && (
                     <Button
+                        ref={nativeAddToCartRef}
                         data-testid="add-to-cart"
                         onClick={() => void onAddOrUpdateToCart()}
                         disabled={!canAddToCart || isAddingToOrUpdatingCart}

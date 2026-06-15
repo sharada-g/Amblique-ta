@@ -18,6 +18,7 @@ import type { ShopperProducts } from '@/scapi';
 import ImageGallery from '@/components/image-gallery';
 import ProductInfo from './product-info';
 import ProductCartActions from '@/components/product-cart-actions';
+import StickyAddToCart from '@/components/sticky-add-to-cart';
 import ProductViewProvider from '@/providers/product-view';
 import { useProductImages } from '@/hooks/product/use-product-images';
 import { useSelectedVariations } from '@/hooks/product/use-selected-variations';
@@ -96,6 +97,7 @@ export default function ProductView({ product }: ProductViewProps): ReactElement
                     <UITarget targetId="sfcc.pdp.collapsibles" />
                 </div>
             </div>
+            <StickyAddToCart />
         </ProductViewProvider>
     );
 }

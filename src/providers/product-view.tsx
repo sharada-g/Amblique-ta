@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { createContext, useContext, type PropsWithChildren } from 'react';
+import { createContext, useContext, useRef, type PropsWithChildren, type RefObject } from 'react';
 import type { ShopperProducts } from '@/scapi';
 import { useProductActions } from '@/hooks/product/use-product-actions';
 import { useCurrentVariant } from '@/hooks/product/use-current-variant';
@@ -22,6 +22,7 @@ import { useCurrentVariant } from '@/hooks/product/use-current-variant';
 interface ProductViewContextValue extends ReturnType<typeof useProductActions> {
     product: ShopperProducts.schemas['Product'];
     mode: 'add' | 'edit';
+    nativeAddToCartRef: RefObject<HTMLButtonElement | null>;
 }
 
 const ProductViewContext = createContext<ProductViewContextValue | null>(null);
@@ -78,8 +79,10 @@ const ProductViewProvider = ({
         itemId,
     });
 
+    const nativeAddToCartRef = useRef<HTMLButtonElement>(null);
+
     return (
-        <ProductViewContext.Provider value={{ product, mode, ...productActionsData }}>
+        <ProductViewContext.Provider value={{ product, mode, nativeAddToCartRef, ...productActionsData }}>
             {children}
         </ProductViewContext.Provider>
     );
